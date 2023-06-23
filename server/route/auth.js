@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
 require("../DB/conn");
 const User = require("../model/userSchema");
@@ -42,6 +42,8 @@ router.get("/", (req, res) => {
 // });
 
 router.post("/register", async (req, res) => {
+  console.log(req.body);
+
   const { name, email, phone, work, password, cpassword } = req.body;
 
   if (!name || !email || !phone || !work || !password || !cpassword) {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import Axios from "axios";
+
 const Signup = () => {
-  // const url = "";
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -11,27 +11,60 @@ const Signup = () => {
     cpassword: "",
   });
 
-  const handleChnage = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prev) => {
-      return { ...prev, [name]: value };
-    });
+    setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const PostData = async (e) => {
     e.preventDefault();
+    const { name, email, phone, work, password, cpassword } = user;
+    const res = await fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        work,
+        password,
+        cpassword,
+      }),
+    });
 
-    // Axios.post("http://localhost:5000/register", {
-    //   name: user.name,
-    //   email: user.email,
-    //   phone: user.phone,
-    //   work: user.work,
-    //   password: user.password,
-    //   cpassword: user.cpassword,
-    // }).then((res) => {
-    console.log(user);
-    // });
+    const data = await res.json();
+    if (data.status === 422 || !data) {
+      window.alert("Invalid Registration");
+      console.log("Invalid Registration");
+    } else {
+      window.alert("Registration successfull");
+      console.log("Registration sucessfull");
+
+      // history.push("/Login");
+    }
   };
+
+  // const handleSubmit = (e) => {
+  // e.preventDefault();
+  // const { name, email, phone, work, password, cpassword } = user;
+
+  // Axios.post("http://localhost:5000/register", user).then((res) => {
+  //   console.log(res);
+  // });
+
+  //   Axios.post("http://127.0.0.1:5000/register", {
+  //     name: user.name,
+  //     email: user.email,
+  //     phone: user.phone,
+  //     work: user.work,
+  //     password: user.password,
+  //     cpassword: user.cpassword,
+  //   }).then((res) => {
+  // console.log(user);
+  //   });
+  // };
 
   return (
     <div>
@@ -42,14 +75,14 @@ const Signup = () => {
           </div>
           <div className="row justify-content-center my-5">
             <div className="col-lg-8">
-              <form onSubmit={handleSubmit}>
+              <form method="POST">
                 <label className="form-label">Name:</label>
                 <input
                   type="text"
                   className="form-control mb-3"
                   value={user.name}
                   name="name"
-                  onChange={handleChnage}
+                  onChange={handleChange}
                   autoComplete="off"
                 />
 
@@ -59,7 +92,7 @@ const Signup = () => {
                   className="form-control mb-3"
                   value={user.email}
                   name="email"
-                  onChange={handleChnage}
+                  onChange={handleChange}
                   autoComplete="off"
                 />
 
@@ -69,7 +102,7 @@ const Signup = () => {
                   className="form-control mb-3"
                   value={user.phone}
                   name="phone"
-                  onChange={handleChnage}
+                  onChange={handleChange}
                   autoComplete="off"
                 />
 
@@ -80,7 +113,7 @@ const Signup = () => {
                   placeholder="e.g. Web Developer, Data Anaylst, etc."
                   value={user.work}
                   name="work"
-                  onChange={handleChnage}
+                  onChange={handleChange}
                   autoComplete="off"
                 />
 
@@ -90,7 +123,7 @@ const Signup = () => {
                   className="form-control mb-3"
                   value={user.password}
                   name="password"
-                  onChange={handleChnage}
+                  onChange={handleChange}
                   autoComplete="off"
                 />
 
@@ -100,12 +133,16 @@ const Signup = () => {
                   className="form-control mb-5"
                   value={user.cpassword}
                   name="cpassword"
-                  onChange={handleChnage}
+                  onChange={handleChange}
                   autoComplete="off"
                 />
 
                 <div className="text-center">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onSubmit={PostData}
+                  >
                     Submit
                   </button>
                 </div>

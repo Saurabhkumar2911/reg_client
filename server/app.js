@@ -4,9 +4,10 @@ const express = require("express");
 
 const app = express();
 const cors = require("cors");
-app.use(cors());
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(express.urlencoded());
+app.use(cors());
 
 dotenv.config({ path: "./config.env" });
 require("./DB/conn");
@@ -17,7 +18,7 @@ app.use(require("./route/auth"));
 
 const PORT = process.env.PORT;
 
-//middleware
+// middleware;
 const middleware = (req, res, next) => {
   console.log(`middleware working`);
   next();
