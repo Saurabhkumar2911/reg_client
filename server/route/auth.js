@@ -42,7 +42,7 @@ router.get("/", (req, res) => {
 // });
 
 router.post("/register", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   const { name, email, phone, work, password, cpassword } = req.body;
 

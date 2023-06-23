@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import Axios from "axios";
 
 const Signup = () => {
+  const history = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -19,7 +21,7 @@ const Signup = () => {
   const PostData = async (e) => {
     e.preventDefault();
     const { name, email, phone, work, password, cpassword } = user;
-    const res = await fetch("http://localhost:5000/register", {
+    const res = await fetch("/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +44,7 @@ const Signup = () => {
       window.alert("Registration successfull");
       console.log("Registration sucessfull");
 
-      // history.push("/Login");
+      history.push("/Login");
     }
   };
 
