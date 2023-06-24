@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 // import Axios from "axios";
 
 const Signup = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -18,8 +18,9 @@ const Signup = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const PostData = async (e) => {
-    e.preventDefault();
+  const PostData = async () => {
+    // e.preventDefault();
+    // console.log("hellooooo");
     const { name, email, phone, work, password, cpassword } = user;
     const res = await fetch("/signup", {
       method: "POST",
@@ -37,6 +38,7 @@ const Signup = () => {
     });
 
     const data = await res.json();
+    console.log(data);
     if (data.status === 422 || !data) {
       console.log("hello");
       window.alert("Invalid Registration");
@@ -45,7 +47,7 @@ const Signup = () => {
       window.alert("Registration successfull");
       console.log("Registration sucessfull");
 
-      history.push("/signin");
+      navigate("/signin");
     }
   };
 
@@ -78,7 +80,7 @@ const Signup = () => {
           </div>
           <div className="row justify-content-center my-5">
             <div className="col-lg-8">
-              <form method="POST">
+              <div>
                 <label className="form-label">Name:</label>
                 <input
                   type="text"
@@ -144,12 +146,12 @@ const Signup = () => {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    onSubmit={PostData}
+                    onClick={PostData}
                   >
                     Submit
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
