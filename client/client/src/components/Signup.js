@@ -20,7 +20,7 @@ const Signup = () => {
 
   const PostData = async () => {
     // e.preventDefault();
-    // console.log("hellooooo");
+
     const { name, email, phone, work, password, cpassword } = user;
     const res = await fetch("/signup", {
       method: "POST",
@@ -37,16 +37,12 @@ const Signup = () => {
       }),
     });
 
-    const data = await res.json();
-    console.log(data);
-    if (data.status === 422 || !data) {
-      console.log("hello");
+    // const data = await res.json();
+
+    if (res.status === 422 || !res) {
       window.alert("Invalid Registration");
-      console.log("Invalid Registration");
     } else {
       window.alert("Registration successfull");
-      console.log("Registration sucessfull");
-
       navigate("/signin");
     }
   };
